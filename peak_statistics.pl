@@ -12,20 +12,24 @@ my ($stddev); my $peakcount = 0; my $singletoncount= 0;
 my ($fname,$path,$suffix) = fileparse($ARGV[0],".gff");
 my $basename = basename($ARGV[0], ".gff");
 
+# comment this out when running this script on a single file.
+
 open IN,$ARGV[0] || "Input file not found\n";
-open OUT,">".$path.$basename."_NoS.gff" || "Output file not found"; # change here if you want to change the output file directory
+open OUT,">".$path."/output/".$basename."_NoS.gff" || "Output file not found"; # change here if you want to change the output file directory
 
 
 while(<IN>){
     
     chomp($_);
+    next if($_ =~ /^#/);
 # Extracting stddev from file based on the 9th column, if it has ';' seperation or not
     my @cols = split(/\t/,$_);
-    if($cols[8] =~ m/.*;.*/){
-        foreach my $val (split(/;/,$cols[8])){
+    if($cols[8] =~ m/;/){
+        my @array = split(/;/,$cols[8]);
+        foreach my $val (@array){
             if((split(/=/,$val))[0] eq "stddev"){
                 $stddev = (split(/=/,$val))[1];
-                last;
+                
             }
         }
     }
@@ -35,7 +39,7 @@ while(<IN>){
     }
     
     if($stddev > 0.0){
-        print OUT $_."\n";
+       print OUT $_."\n";
         $peakcount++;
         push(@tagcounts,$cols[5]);
         push(@stds,$stddev);
@@ -44,10 +48,10 @@ while(<IN>){
         $singletoncount++;
         
     }
-    
+   
 }
 
-print $ARGV[0]."\t.\t.\t".$peakcount."\t".$singletoncount."\t".median(@tagcounts)."\t".mean(@tagcounts)."\t".median(@stds)."\t".mean(@stds)."\n";
+print $basename.".gff"."\t.\t.\t".$peakcount."\t".$singletoncount."\t".median(@tagcounts)."\t".mean(@tagcounts)."\t".median(@stds)."\t".mean(@stds)."\n";
 
 sub median{
     my @a = sort {$a <=> $b} @_;
