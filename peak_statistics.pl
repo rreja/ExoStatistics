@@ -1,17 +1,12 @@
 use strict;
 use warnings;
-use Getopt::Std;
 use File::Basename;
-
 
 
 # Decalre all the global variables
 my %options;
 my (@tagcounts,@stds);
 my ($stddev); my $peakcount = 0; my $singletoncount= 0;
-
-getopt('ib',\%options);
-
 
 # Using fileparser to get the basename and path
 my ($fname,$path,$suffix) = fileparse($ARGV[0],".gff");
@@ -40,7 +35,6 @@ while(<IN>){
     }
     
     if($stddev > 0.0){
-        print $cols[5]."\n";
         print OUT $_."\n";
         $peakcount++;
         push(@tagcounts,$cols[5]);
@@ -53,7 +47,7 @@ while(<IN>){
     
 }
 
-
+print $ARGV[0]."\t.\t.\t".$peakcount."\t".$singletoncount."\t".median(@tagcounts)."\t".mean(@tagcounts)."\t".median(@stds)."\t".mean(@stds)."\n";
 
 sub median{
     my @a = sort {$a <=> $b} @_;
