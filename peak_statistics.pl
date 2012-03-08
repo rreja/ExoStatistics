@@ -12,11 +12,14 @@ my ($stddev); my $peakcount = 0; my $singletoncount= 0;
 my ($fname,$path,$suffix) = fileparse($ARGV[0],".gff");
 my $basename = basename($ARGV[0], ".gff");
 
-# comment this out when running this script on a single file.
-
 open IN,$ARGV[0] || "Input file not found\n";
-open OUT,">".$path."/output/".$basename."_NoS.gff" || "Output file not found"; # change here if you want to change the output file directory
 
+## ------comment out the line below out when running this script on a single file.-------
+open OUT,">".$path."output/".$basename."_NoS.gff" || "Output file not found"; # change here if you want to change the output file directory
+
+##------Uncomment these two line when running on a single file------
+#open OUT, ">".$path.$basename."_NoS.gff" || "Output file not found";
+#print "Filename\tMapped_reads\tUniquely_mapped_reads\tPeaks\tSingletons\tPeak_median_excluding_singletons\tPeak_mean_exclusing_singletons\tMedian_std_excluding_singeltons\tMean_std_excluding_singletons\n";
 
 while(<IN>){
     
