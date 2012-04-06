@@ -26,7 +26,9 @@ THE SCRIPT WILL BREAK IF:
   you find ^M character in your file, use the following command to remove it:
 
     $ perl -p -e 's/^M/\\n/g;' <file_with_excel_char> >  <new_file>
+    $ 
     $ [^M character can be typed by pressing ctrl-V-M]
+    $
 
 
 Installation
