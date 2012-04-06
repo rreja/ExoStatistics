@@ -25,7 +25,7 @@ THE SCRIPT WILL BREAK IF:
   in terminal, to see if you can find ^M character in your file. In case, 
   you find ^M character in your file, use the following command to remove it:
 
-    $ perl -p -e 's/^M/\n/g;' <file_with_excel_char> >  <new_file>
+    $ perl -p -e 's/^M/\\n/g;' <file_with_excel_char> >  <new_file>
     $ [^M character can be typed by pressing ctrl-V-M]
 
 
