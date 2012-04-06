@@ -27,8 +27,6 @@ THE SCRIPT WILL BREAK IF:
 
     $ perl -p -e 's/^M/\n/g;' <file_with_excel_char> >  <new_file>
     $ [^M character can be typed by pressing ctrl-V-M]
-    $
-
 
 
 Installation
