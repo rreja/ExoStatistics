@@ -4,11 +4,11 @@ Peak Statistics
 Introduction
 -------------
 
-The scriptis in this repository can be used to perform some basic statistics
+The scripts in this repository can be used to perform some basic statistics
 on the "peak calls". The "peak calls" file is the output file obtained by running
 genetrack program on the index/raw tag file.
 
-The basic operations include seperating the singleton and non-singelton peaks and 
+The basic operations include separating the singleton and non-singelton peaks and 
 then calculating the median and average of tag counts and standard deviations.
 
 
@@ -17,6 +17,19 @@ Requirements
 
 - The software requires only Perl_ (5 or higher) to run.
 - The input file should be in standard Gff_ format
+
+THE SCRIPT WILL BREAK IF:
+------------------------
+
+- The files have excel ^M character in it. For sanity check, open your file
+  in terminal, to see if you can find ^M character in your file. In case, 
+  you find ^M character in your file, use the following command to remove it:
+
+    $ perl -p -e 's/^M/\n/g;' <file_with_excel_char> >  <new_file>
+    $ [^M character can be typed by pressing ctrl-V-M]
+    $
+
+
 
 Installation
 ------------
