@@ -38,6 +38,8 @@ Unpack the source code archive. The folder contains the following::
 To get help on the parameters, type::
 
     $ perl  peak_statistics.pl -h
+    $ Options: -i <path1>     path to the folder with peak call files [accepted file format, gff].
+    $          -h             help
 
 Do a test run of the script by typing::
 
