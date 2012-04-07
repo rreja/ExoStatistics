@@ -4,59 +4,59 @@ Peak Statistics
 Introduction
 -------------
 
-The scripts in this repository can be used to perform some basic statistics
-on the "peak calls". The "peak calls" file is the output file obtained by running
-genetrack program on the index/raw tag file.
+The scripts in this repository can be used to perform some basic statistics on the "peak calls". The "peak calls" file is the output file obtained by running genetrack program on the index/raw tag file.
 
-The basic operations include separating the singleton and non-singelton peaks and 
-then calculating the median and average of tag counts and standard deviations.
+The basic operations include separating the singleton and non-singelton peaks and then calculating the median and average of tag counts and standard deviations.
 
 
 Requirements
 ------------
 
-- The software requires only Perl_ (5 or higher) to run.
+- The script only requires Perl_ (5 or higher) to run.
 - The input file should be in standard Gff_ format
 
 THE SCRIPT WILL BREAK IF:
 ------------------------
 
-- The files have excel ^M character in it. For sanity check, open your file
-  in terminal, to see if you can find ^M character in your file. In case, 
-  you find ^M character in your file, use the following command to remove it:
+- The files have excel ^M character in it. For sanity check, open your file in terminal, to see if you can see ^M character in your file. In case, you find ^M character in your file, use the following command to remove it::
 
-$ perl -p -e 's/^M/\\n/g;' <file_with_excel_char> >  <new_file>
-$ 
-$ 
-$
+    $ perl -p -e 's/^M/\n/g;' <file_with_excel_char> > <new_file>
+
+- If the input files are not in the standard Gff_ format.
 
 
-Installation
+Installing and Running the scripts
 ------------
 
-Unpack the source code archive. The folder contains the followng
+Unpack the source code archive. The folder contains the following::
 
-- `peak_statistics.pl`: Script for basic statistics when running on a single file
-- `peak_statistics_batch.sh` : Script for batch processing
-- `README.rst` : Readme file
-- `sample.gff`: The sample input file to test the scripts.
+-  peak_statistics.pl: Script for basic statistics.
+-  README.rst: Readme file
+-  sample.gff: The sample input file to test the script.
 
-When running the script on a single input gff file:
 
-- Open the file `peak_statistics.pl` in  any text editor of your choice.
-- Comment out the line 18 by putting a "#" in front of it.
-- Uncomment the lines 21 and 22 by removing the "#" in front of them.
-- You are ready to use the file. How to run the script from your terminal?
+To get help on the parameters, type::
 
-- Type the following:
+    $ perl  peak_statistics.pl -h
 
-    $ perl  peak_statistics.pl  <path_to_your_input_file>
-    $ #for example: peak_statistics.pl /Users/input/sample.gff
+Do a test run of the script by typing::
 
-An output file with  '_NoS.gff' at the end will be generated, that will 
-contain all the non-singelton peaks into it (The peaks whose standard deviation
-is greater than 0). Also, some statistic summary about the file would be displayed
-on the screen. Each column (in the order of display)  contains the following:
+    $ perl peak_statistics.pl -i . 
+
+The folder should now contain, a "peak_stats.txt" and a "sample_NoS.gff" file.
+This means that script runs fine on your system.
+
+
+Output
+------
+
+Following output files will be generated:
+
+- An output file with  '_NoS.gff' at the end will be generated, for each input. This contains all the non-singelton peaks. (non-singelton peaks are those with standard deviation greater than 0).
+
+
+- "peak_stats.txt" containing the summary for each input file. The summary includes the following information::
+
     - Filename
     - Percentage of mapped reads
     - Percentage of uniquely mapped reads
@@ -67,26 +67,7 @@ on the screen. Each column (in the order of display)  contains the following:
     - Median fuzziness (standard deviation) for non-singleton peaks
     - Mean fuzziness (standard deviation) for non-singleton peaks
 
-When batch processing:
-
-- For batch processing DO NOT modify 'peak_statistics.pl' file
-- To run the batch script:
-
-    $./peak_statistics_batch.sh # will give the instruction on how to run the file
-    $./peak_statistics_batch.sh -i <path_to_directory>
-    $ # for example: ./peak_statistics_batch.sh  /Users/input/
-
-Remember, when giving the path to the directory containing files, always give the 
-path with "/" at the end. For ex: "/Users/input/" is acceptable but "/Users/input"
-would generate error.
-
-
-The batch script would create a foler "output" in the directory containing your
-input files. The output folder will contain a "_NoS.gff" file for each input
-gff file and a "peak_statistics.txt" file containing the basic statistics for 
-all the input files present in the directory. "peak_statistics.txt" has the 
-same format as mentioned above.
-
+ 
 
 .. _Perl: http://www.perl.org/
 .. _Gff: http://genome.ucsc.edu/FAQ/FAQformat#format3
