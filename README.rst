@@ -54,7 +54,7 @@ Output
 
 Following output files will be generated:
 
-- An output file with  '_NoS.gff' at the end will be generated, for each input. This contains all the non-singelton peaks. (non-singelton peaks are those with standard deviation greater than 0).
+- An output file with  '_NoS.gff' at the end will be generated in a seperate folder "output", for each input. This contains all the non-singelton peaks. (non-singelton peaks are those with standard deviation greater than 0).
 
 
 - "peak_stats.txt" containing the summary for each input file. The summary includes the following information::
