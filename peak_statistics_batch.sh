@@ -1,4 +1,4 @@
-USAGE="Usage: `basename $0` -i path_to_input_files"
+USAGE="Usage: `basename $0` -i path_to_input_files "
 
 if [ $# -eq 0 ];then
    echo $USAGE >&2
