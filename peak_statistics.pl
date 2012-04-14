@@ -14,9 +14,16 @@ my ($stddev); my $peakcount = 0; my $singletoncount= 0;
 
 my $dir = $opt{'i'}; #remember to put a "/" at the end of the directory.
 opendir DIR, $dir || die "Cannot open the directory";
+
 $dir = check_dir($dir);
 
+#check if output direcory exists.
+unless(-d $dir."output/"){
+    system("mkdir ".$dir."output/");
+}
+
 open OUT1, ">".$dir."peak_stats.txt" || die "File not found"; # the file containing the summary
+print OUT1 "Filename\tMapped_reads\tUniquely_mapped_reads\tPeaks\tSingletons\tPeak_median_excluding_singletons\tPeak_mean_exclusing_singletons\tMedian_std_excluding_singeltons\tMean_std_excluding_singletons\n";
 
 while( (my $filename = readdir(DIR))){
 
@@ -29,9 +36,9 @@ if($suffix eq ".gff"){
 
 
 open IN,$dir.$filename || die "Input file not found\n";
-open OUT, ">".$dir.$basename."_NoS.gff" || die "Output file not found";
+open OUT, ">".$dir."output/".$basename."_NoS.gff" || die "Output file not found";
 
-print OUT1 "Filename\tMapped_reads\tUniquely_mapped_reads\tPeaks\tSingletons\tPeak_median_excluding_singletons\tPeak_mean_exclusing_singletons\tMedian_std_excluding_singeltons\tMean_std_excluding_singletons\n";
+#print OUT1 "Filename\tMapped_reads\tUniquely_mapped_reads\tPeaks\tSingletons\tPeak_median_excluding_singletons\tPeak_mean_exclusing_singletons\tMedian_std_excluding_singeltons\tMean_std_excluding_singletons\n";
 while(<IN>){
     
     chomp($_);
