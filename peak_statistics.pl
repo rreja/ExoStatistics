@@ -18,9 +18,9 @@ opendir DIR, $dir || die "Cannot open the directory";
 $dir = check_dir($dir);
 
 #check if output direcory exists.
-unless(-d $dir."output/"){
-    system("mkdir ".$dir."output/");
-}
+#unless(-d $dir."output/"){
+#    system("mkdir ".$dir."output/");
+#}
 
 open OUT1, ">".$dir."peak_stats.txt" || die "File not found"; # the file containing the summary
 print OUT1 "Filename\tMapped_reads\tUniquely_mapped_reads\tPeaks\tSingletons\tPeak_median_excluding_singletons\tPeak_mean_exclusing_singletons\tMedian_std_excluding_singeltons\tMean_std_excluding_singletons\n";
@@ -28,6 +28,7 @@ print OUT1 "Filename\tMapped_reads\tUniquely_mapped_reads\tPeaks\tSingletons\tPe
 while( (my $filename = readdir(DIR))){
 
 next if($filename =~ /^\./);
+next if($filename =~ /NoS/);
 # Using fileparser to get the basename and path
 my ($fname,$path,$suffix) = fileparse($filename,".gff");
 my $basename = basename($filename, ".gff");
@@ -36,14 +37,13 @@ if($suffix eq ".gff"){
 
 
 open IN,$dir.$filename || die "Input file not found\n";
-open OUT, ">".$dir."output/".$basename."_NoS.gff" || die "Output file not found";
+open OUT, ">".$dir.$basename."_NoS.gff" || die "Output file not found";
 
 #print OUT1 "Filename\tMapped_reads\tUniquely_mapped_reads\tPeaks\tSingletons\tPeak_median_excluding_singletons\tPeak_mean_exclusing_singletons\tMedian_std_excluding_singeltons\tMean_std_excluding_singletons\n";
 while(<IN>){
     
     chomp($_);
     next if($_ =~ /^#/);
-    next if($_ =~ /NoS/);
 # Extracting stddev from file based on the 9th column, if it has ';' seperation or not
     my @cols = split(/\t/,$_);
     if($cols[8] =~ m/;/){
