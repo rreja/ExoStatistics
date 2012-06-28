@@ -43,6 +43,7 @@ while(<IN>){
     
     chomp($_);
     next if($_ =~ /^#/);
+    next if($_ =~ /NoS/);
 # Extracting stddev from file based on the 9th column, if it has ';' seperation or not
     my @cols = split(/\t/,$_);
     if($cols[8] =~ m/;/){
