@@ -10,9 +10,9 @@ getopt('i',\%opt);
 # Decalre all the global variables
 my %options;
 my (@tagcounts,@stds);
-my ($stddev); my $peakcount = 0; my $singletoncount= 0;
+my ($stddev); my $peakcount; my $singletoncount;
 
-my $dir = $opt{'i'}; #remember to put a "/" at the end of the directory.
+my $dir = $opt{'i'}; 
 opendir DIR, $dir || die "Cannot open the directory";
 
 $dir = check_dir($dir);
@@ -23,18 +23,21 @@ $dir = check_dir($dir);
 #}
 
 open OUT1, ">".$dir."peak_stats.txt" || die "File not found"; # the file containing the summary
-print OUT1 "Filename\tMapped_reads\tUniquely_mapped_reads\tPeaks\tSingletons\tPeak_median_excluding_singletons\tPeak_mean_exclusing_singletons\tMedian_std_excluding_singeltons\tMean_std_excluding_singletons\n";
+print OUT1 "Filename\tMapped_reads\tUniquely_mapped_reads\tPeaks\tSingletons\tPeak_median_excluding_singletons\tPeak_mean_excluding_singletons\tMedian_std_excluding_singeltons\tMean_std_excluding_singletons\n";
 
 while( (my $filename = readdir(DIR))){
-
 next if($filename =~ /^\./);
 next if($filename =~ /NoS/);
+
 # Using fileparser to get the basename and path
 my ($fname,$path,$suffix) = fileparse($filename,".gff");
 my $basename = basename($filename, ".gff");
 
 if($suffix eq ".gff"){
-
+$singletoncount = 0;
+$peakcount = 0;
+$stddev = 0.0;
+@tagcounts = (); @stds = ();
 
 open IN,$dir.$filename || die "Input file not found\n";
 open OUT, ">".$dir.$basename."_NoS.gff" || die "Output file not found";
@@ -83,8 +86,14 @@ close(IN);
 
 
 sub median{
+    if(scalar(@_) == 0){
+        return 0;
+    }
+    else{
+        
     my @a = sort {$a <=> $b} @_;
-  return ($a[$#a/2] + $a[@a/2]) / 2;
+    return ($a[$#a/2] + $a[@a/2]) / 2;
+    }
 }
 
 sub mean{
