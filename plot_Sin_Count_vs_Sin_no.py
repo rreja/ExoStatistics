@@ -1,13 +1,7 @@
-import sys, os, pybedtools, math
+import sys, os
 from optparse import OptionParser , IndentedHelpFormatter
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib.colors as cl
-from matplotlib.font_manager import FontProperties
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from matplotlib.ticker import MaxNLocator
-from matplotlib import patches
 
 
 def process_file(fname,outfile):
@@ -38,7 +32,11 @@ def plot_histogram(outfile,tags):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     plt.bar(x,y,width)
+    ax.set_xlabel("Singleton tag count",fontsize=8)
+    # Set the Y Axis label.
+    ax.set_ylabel("Number of Singletons",fontsize=8)
     plt.savefig(outfile)
+    
     
         
 def get_std(attr):
