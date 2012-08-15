@@ -12,31 +12,32 @@ from matplotlib import patches
 
 def process_file(fname,outfile):
     input = open(fname,'rt')
-    #tags = {}
-    no = []
+    tags = {}
+    #no = []
     for line in input:
         if line.startswith("#"):
             continue
         if(len(line.split("\t")) == 9):
             chrom,junk,junk,start,end,tag,strand,junk,attr = line.split("\t")
             if float(get_std(attr.rstrip())) == 0:
-                #if int(tag) in tags:
-                    #tags[int(tag)] += 1
-                no.append(int(tag))
-                #else:
-                #    tags[int(tag)] = 1
-    plot_histogram(outfile,no)
+                if int(tag) in tags:
+                    tags[int(tag)] += 1
+                #no.append(int(tag))
+                else:
+                    tags[int(tag)] = 1
+    plot_histogram(outfile,tags)
     
     
-def plot_histogram(outfile,no):
-    #x = []
-    #y = []
-    #for i in tags.items():
-    #    x.append(i)
-    #    y.append(tags[i])
+def plot_histogram(outfile,tags):
+    x = []
+    y = []
+    width = 1.0
+    for k,v in tags.items():
+        x.append(k)
+        y.append(v)
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.hist(no)
+    plt.bar(x,y,width)
     plt.savefig(outfile)
     
         
@@ -79,14 +80,19 @@ def run():
     if not args:
         parser.print_help()
         sys.exit(1)
+    
+    if not os.path.isdir(args[0]):
+        outfile = os.path.join(os.path.dirname(args[0]),"SingeltonPlot_"+os.path.splitext(os.path.basename(args[0]))[0]+".png")
+        process_file(args[0],outfile)
+    else:
         
-    if not os.path.exists(args[0]):
-        parser.error('Path %s does not exist.' % args[0])
-    for name in os.listdir(args[0]):
-        if name.endswith('.gff'):
-            fname = os.path.join(args[0], name)
-            outfile = os.path.join(args[0],"SingeltonPlot_"+os.path.splitext(name)[0]+".png") 
-            process_file(fname,outfile)
+        if not os.path.exists(args[0]):
+            parser.error('Path %s does not exist.' % args[0])
+        for name in os.listdir(args[0]):
+            if name.endswith('.gff'):
+                fname = os.path.join(args[0], name)
+                outfile = os.path.join(args[0],"SingeltonPlot_"+os.path.splitext(name)[0]+".png") 
+                process_file(fname,outfile)
     
     
 if __name__ == "__main__":
