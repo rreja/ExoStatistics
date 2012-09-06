@@ -98,7 +98,9 @@ input_paths may be:
 - a single file.
 
 REQUIREMENT:
-1) a file with chromosome lengths in it, in the format: chr1 1 1000000
+1) a file with chromosome lengths in it, in the format: chr1 1 1000000.
+This file should be in the same folder as the script. Do not remove it. The
+file name is sg07.txt. Change it for other organism.
 
 example usages:
 python create_weighted_singletons_from_peaks.py /usr/local/peaks/genetrack_peaks.gff
